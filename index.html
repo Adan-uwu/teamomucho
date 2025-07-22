@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti, Mi Vida</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #faf3f0; /* Beige rosado suave */
+            font-family: 'Montserrat', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Barra lateral (nuevo estilo) */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 80px;
+            background: #e8c4c4; /* Rosa polvoriento */
+            border-radius: 0 20px 20px 0;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+            z-index: 1;
+        }
+
+        /* Flores decorativas */
+        .flower {
+            position: absolute;
+            opacity: 0.8;
+            z-index: 0;
+            animation: float 8s infinite ease-in-out;
+            filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.1));
+        }
+        .flower-1 {
+            width: 90px;
+            top: 15%;
+            left: 90px;
+            animation-delay: 0s;
+        }
+        .flower-2 {
+            width: 110px;
+            bottom: 10%;
+            right: 5%;
+            animation-delay: 1.5s;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Sobre redondeado */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #f3a8b5; /* Rosa suave */
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            z-index: 10;
+        }
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #e893a8; /* Rosa más oscuro */
+            transform-origin: top;
+            transform: rotateX(0deg);
+            transition: all 0.5s ease-in-out;
+            z-index: 12;
+            border-radius: 0 0 12px 12px;
+        }
+        .envelope.open:before {
+            transform: rotateX(180deg);
+        }
+        .envelope:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #d9889e; /* Rosa base */
+            z-index: 8;
+            border-radius: 12px 12px 0 0;
+        }
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        /* Carta con bordes redondeados */
+        .letter {
+            position: absolute;
+            width: 280px;
+            height: 400px;
+            background: #fff9fb;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            padding: 30px;
+            box-sizing: border-box;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 11;
+            overflow-y: auto;
+            border: 1px solid #f0d6dd;
+        }
+        .letter.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .letter h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #c45e7a;
+            text-align: center;
+            font-size: 2.3rem;
+            margin-bottom: 25px;
+        }
+        .letter p {
+            line-height: 1.8;
+            color: #555;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            text-align: right;
+            margin-top: 30px;
+            color: #c45e7a;
+        }
+        .heart {
+            color: #ff6b8b;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* Estrellas brillantes */
+        .glitter {
+            position: absolute;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffd166"><path d="M12 2L9 9l-7 3 5 6-1 7 7-4 7 4-1-7 5-6-7-3z"/></svg>') no-repeat;
+            background-size: contain;
+            opacity: 0;
+            z-index: 5;
+            animation: glitterFall linear forwards;
+        }
+        @keyframes glitterFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0.7;
+            }
+        }
+
+        /* Instrucción */
+        .hint {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #c45e7a;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 9;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 8px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra lateral -->
+    <div class="sidebar"></div>
+
+    <!-- Flores -->
+    <img src="https://cdn.pixabay.com/photo/2017/01/10/03/06/flower-1968358_640.png" class="flower flower-1">
+    <img src="https://cdn.pixabay.com/photo/2017/01/31/23/42/decorative-2028039_640.png" class="flower flower-2">
+
+    <!-- Sobre -->
+    <div class="envelope" id="envelope"></div>
+    <p class="hint">Abre el sobre 💖</p>
+
+    <!-- Carta con tu mensaje -->
+    <div class="letter" id="letter">
+        <h1>Para la dueña de mi corazón</h1>
+        <p>Mi vida, mi pilar fundamental:</p>
+        <p>Desde que llegaste a mi vida, todo cobró un sentido nuevo. Eres esa persona que, con solo existir, hace que valga la pena cada amanecer, cada lucha y cada sueño. No solo eres mi compañera, sino mi refugio, mi motivación y la razón por la que creo en el amor verdadero.</p>
+        <p>Contigo aprendí que el amor no se mide en grandiosos gestos, sino en los detalles pequeños: en tu mirada que me entiende sin palabras, en tu apoyo incondicional que me hace fuerte, y en ese amor que das sin pedir nada a cambio.</p>
+        <p>No hay un solo día que no agradezca el haberte encontrado. Porque contigo, el "para siempre" suena a promesa cumplida.</p>
+        <div class="signature">Te amo <span class="heart">♥</span></div>
+    </div>
+
+    <script>
+        // Animaciones
+        const envelope = document.getElementById('envelope');
+        const letter = document.getElementById('letter');
+        const hint = document.querySelector('.hint');
+
+        envelope.addEventListener('click', () => {
+            envelope.classList.add('open');
+            hint.style.opacity = '0';
+            setTimeout(() => {
+                letter.classList.add('show');
+                createGlitter();
+            }, 800);
+        });
+
+        function createGlitter() {
+            for (let i = 0; i < 25; i++) {
+                const glitter = document.createElement('div');
+                glitter.className = 'glitter';
+                glitter.style.left = Math.random() * 100 + 'vw';
+                glitter.style.top = -30 + 'px';
+                glitter.style.width = (Math.random() * 20 + 10) + 'px';
+                glitter.style.height = glitter.style.width;
+                glitter.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                document.body.appendChild(glitter);
+            }
+        }
+    </script>
+</body>
+</html>
